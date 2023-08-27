@@ -4,13 +4,16 @@
 
 const fs = require("fs");
 
-function checkForRepeatedWords(text, word, threshhold) {
-  return false;
+// HELLO world -> hello world -> HeLLo WoRlD
+
+function checkForRepeatedWords(text = "", word, threshhold = 3) {
+  const regex = new RegExp(word, "gi");
+  const matches = text.match(regex);
+  return matches && matches.length >= threshhold;
 }
 
 function documentChecker(pathToFile, wordsToCheck = [], threshhold = 3) {
   const fileContent = fs.readFileSync(pathToFile, "utf-8");
-  console.log(fileContent);
 
   let isValidDocument = true;
   wordsToCheck.forEach((word) => {
@@ -25,4 +28,4 @@ function documentChecker(pathToFile, wordsToCheck = [], threshhold = 3) {
   return isValidDocument;
 }
 
-documentChecker("./test.txt");
+module.exports = documentChecker;
